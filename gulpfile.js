@@ -1,5 +1,6 @@
 const gulp = require("gulp");
 const webpack = require("webpack-stream");
+const sass = require("gulp-sass")(require('sass'));
 
 const dist = "/OpenServer/domains/reactAdmin/admin";
 gulp.task("copy-html", () => {
@@ -36,4 +37,10 @@ gulp.task("build-js", () => {
             }
         }))
         .pipe(gulp.dest(dist))
+});
+
+gulp.task("buildsass", () => {
+    return gulp.src("./app/scss/style.scss")
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest(dist));
 });
