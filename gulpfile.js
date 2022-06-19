@@ -4,9 +4,10 @@ const sass = require("gulp-sass")(require('sass'));
 
 const dist = "/OpenServer/domains/reactAdmin/admin";
 gulp.task("copy-html", () => {
-    return gulp.src("app/src/index.html")
+    return gulp.src("./app/src/index.html")
         .pipe(gulp.dest("/OpenServer/domains/reactAdmin/admin"))
 });
+
 gulp.task("build-js", () => {
     return gulp.src("./app/src/main.js")
         .pipe(webpack({
@@ -41,6 +42,19 @@ gulp.task("build-js", () => {
 
 gulp.task("buildsass", () => {
     return gulp.src("./app/scss/style.scss")
-        .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest(dist));
+});
+
+gulp.task("copy-api", () => {
+    return gulp.src("./app/api/**/*.*")
+        .pipe(gulp.dest(dist + "/api"));
+});
+
+gulp.task("copy-assets", () => {
+    return gulp.src("./app/assets/**/*.*")
+        .pipe(gulp.dest(dist + "/assets"));
+});
+
+gulp.task("watch", () => {
+    gulp.watch("./app/src/index.html", gulp.parallel("copy-html"));
 });
