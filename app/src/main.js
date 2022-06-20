@@ -4,3 +4,11 @@ $.get("./api", data => {
         $("body").append(`<h1>${file}</h1>`)
     })
 }, "JSON");
+
+$("button").on("click", () => {
+    $.post("./api/createNewPage.php", {
+        "name": $("input").val()
+    }, data => {
+        console.log(data)
+    })
+});
