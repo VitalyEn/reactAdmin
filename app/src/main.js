@@ -1,4 +1,8 @@
-import $ from 'jquery';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Editor from './components/editor';
+
+ReactDOM.render(<Editor/>, document.getElementById('root'));
 
 function getPageList() {
     $("h1").remove();
