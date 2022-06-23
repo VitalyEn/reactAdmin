@@ -4,6 +4,8 @@ import Editor from './components/editor';
 
 ReactDOM.render(<Editor/>, document.getElementById('root'));
 
+
+/*
 function getPageList() {
     $("h1").remove();
     $.get("./api", data => {
@@ -25,3 +27,4 @@ $("button").on("click", () => {
             alert("Страница уже существует!");
         })
 });
+*/
