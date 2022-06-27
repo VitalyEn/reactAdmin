@@ -24,32 +24,55 @@ export default class Editor extends Component {
     }
 
     open(page){
-        this.currentPage = `../${page}`;
-        this.iframe.load(this.currentPage, () => {
-            const body = this.iframe.contentDocument.body;
-let textNodes = [];
-            function recursy(element){
-                element.childNodes.forEach(node =>{
-                    
-                    if(node.nodeName ==="#text" && node.nodeValue.replace(/\s+/g, "").length > 0){
-                       textNodes.push(node);
-                    }else{
-                        recursy(node);
-                    }
-                })
-            };
+        this.currentPage = `../${page}?rnd=${Math.random()}`;
 
-            recursy(body);
-
-            textNodes.forEach(node => {
-                const wrapper = this.iframe.contentDocument.createElement('text-editor');
-                node.parentNode.replaceChild(wrapper, node);
-                wrapper.appendChild(node);
-                wrapper.contentEditable = "true";
-            });
-          
-        });
+        axios
+            .get(`../${page}`)
+            .then(res => this.parseStrToDOM(res.data))
+            .then(this.wrapTextNode)
+            .then(this.serializeDOMToString)
+            .then(html => axios.post("./api/saveTempPage.php", {html}))
+       // this.iframe.load(this.currentPage, () => {
+           
+      //  });
       
+    }
+
+    parseStrToDOM(str){
+        const parser = new DOMParser();
+        return parser.parseFromString(str, "text/html");
+    }
+
+    wrapTextNode(dom){
+        const body = dom.body;
+        let textNodes = [];
+        function recursy(element){
+            element.childNodes.forEach(node =>{
+                
+                if(node.nodeName ==="#text" && node.nodeValue.replace(/\s+/g, "").length > 0){
+                   textNodes.push(node);
+                }else{
+                    recursy(node);
+                }
+            })
+        };
+
+        recursy(body);
+
+        textNodes.forEach(node => {
+            const wrapper = dom.createElement('text-editor');
+            node.parentNode.replaceChild(wrapper, node);
+            wrapper.appendChild(node);
+            wrapper.contentEditable = "true";
+        });
+
+        return dom;
+      
+    }
+
+    serializeDOMToString(dom){
+        const serializer = new XMLSerializer();
+        return serializer.serializeToString(dom);
     }
 
     loadPageList(){
