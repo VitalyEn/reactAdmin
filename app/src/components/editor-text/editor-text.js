@@ -32,6 +32,8 @@ export default class EditorText {
     }
 
     onTextEdit(element) {
+
         this.virtualElement.innerHTML = this.element.innerHTML;
+
     }
 }

@@ -48,7 +48,7 @@ export default class Editor extends Component {
         const newDom = this.virtualDom.cloneNode(this.virtualDom);
         DOMHelper.unwrapTextNodes(newDom);
         const html = DOMHelper.serializeDOMToString(newDom);
-        console.log(html);
+        //console.log(html);
         axios
             .post("./api/savePage.php", {pageName: this.currentPage, html})       
     }
@@ -57,8 +57,9 @@ export default class Editor extends Component {
         this.iframe.contentDocument.body.querySelectorAll("text-editor").forEach(element => {
 
             const id = element.getAttribute("nodeid");
-            const virtualElement = this.virtualDom.body.querySelector(`[nodeid="${id}"]`).innerHTML = element.innerHTML;
-
+            //console.log("test = "+element.innerHTML+ "id = "+ id);
+            const virtualElement = this.virtualDom.body.querySelector(`[nodeid="${id}"]`);
+        
             new EditorText(element, virtualElement);
 
         })
