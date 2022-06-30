@@ -31,9 +31,7 @@ export default class EditorText {
         this.element.removeAttribute('contenteditable');
     }
 
-    onTextEdit(element) {
-
+    onTextEdit() {
         this.virtualElement.innerHTML = this.element.innerHTML;
-
     }
 }

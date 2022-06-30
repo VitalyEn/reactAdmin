@@ -1,10 +1,11 @@
-export default class domhelper {
+export default class DOMHelper {
+
     static parseStrToDOM(str) {
         const parser = new DOMParser();
         return parser.parseFromString(str, "text/html");
     }
 
-    static wrapTextNode(dom) {
+    static wrapTextNodes(dom) {
         const body = dom.body;
         let textNodes = [];
 
@@ -19,7 +20,6 @@ export default class domhelper {
             })
         };
 
-
         recursy(body);
 
         textNodes.forEach((node, i) => {
@@ -27,21 +27,19 @@ export default class domhelper {
             node.parentNode.replaceChild(wrapper, node);
             wrapper.appendChild(node);
             wrapper.setAttribute("nodeid", i);
-            //wrapper.contentEditable = "true";
         });
 
         return dom;
+    }
 
+    static serializeDOMToString(dom) {
+        const serializer = new XMLSerializer();
+        return serializer.serializeToString(dom);
     }
 
     static unwrapTextNodes(dom) {
         dom.body.querySelectorAll("text-editor").forEach(element => {
             element.parentNode.replaceChild(element.firstChild, element);
         });
-    }
-
-    static serializeDOMToString(dom) {
-        const serializer = new XMLSerializer();
-        return serializer.serializeToString(dom);
     }
 }
