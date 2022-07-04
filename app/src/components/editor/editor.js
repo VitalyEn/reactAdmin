@@ -6,6 +6,7 @@ import EditorText from '../editor-text';
 import UIkit from 'uikit';
 import Spinner from '../spinner';
 import ConfirmModal from "../confirm-modal";
+import ChooseModal from "../choose-modal";
 
 export default class Editor extends Component {
     constructor() {
@@ -19,6 +20,7 @@ export default class Editor extends Component {
         this.createNewPage = this.createNewPage.bind(this);
         this.isLoading = this.isLoading.bind(this);
         this.isLoaded = this.isLoaded.bind(this);
+        this.save = this.save.bind(this);
     }
 
     componentDidMount() {
@@ -139,6 +141,7 @@ export default class Editor extends Component {
                 </div>
                 
                 <ConfirmModal modal={modal} target={'modal-save'} method={this.save}/>
+                <ChooseModal modal={modal} target={'modal-open'}/>
             </>
         )
     }
