@@ -115,15 +115,20 @@ export default class Editor extends Component {
         }))
     }
 
-restoreBackup(e, backup){
-    if(e){
-        e.preventDefault();
+    restoreBackup(e, backup) {
+        if (e) {
+            e.preventDefault();
+        }
+        UIkit.modal.confirm("Вы действительно хотите восстановить страницу из этой резервной копии? Все несохраненные данные будут потеряны!", {labels: {ok: 'Восстановить', cancel: 'Отмена'}})
+        .then(() => {
+            this.isLoading();
+            return axios
+                .post('./api/restoreBackup.php', {"page": this.currentPage, "file": backup})
+        })
+        .then(() => {
+            this.open(this.currentPage, this.isLoaded);
+        })
     }
-    UIkit.modal.confirm("Вы действительно хотите восстановить страницу из этой резервной копии? Все несохраненные данные будут потеряны!", {labels: {ok:'Восстановить', cancel:'Отмена'}})
-    .then(() => {
-        console.log('ffffff');
-    })
-}
 
     isLoading() {
         this.setState({
