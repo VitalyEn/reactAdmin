@@ -7,6 +7,7 @@ import UIkit from 'uikit';
 import Spinner from '../spinner';
 import ConfirmModal from '../confirm-modal';
 import ChooseModal from '../choose-modal';
+import Panel from "../panel";
 
 export default class Editor extends Component {
     constructor() {
@@ -136,16 +137,11 @@ export default class Editor extends Component {
         return (
             <>
      
-                <iframe src={this.currentPage} frameBorder="0"></iframe>
+                <iframe src="" frameBorder="0"></iframe>
                 
                 {spinner}
-
-                <div className="panel">
-                    <button className="uk-button uk-button-primary uk-margin-small-right" uk-toggle="target: #modal-open">Открыть</button>
-                    <button className="uk-button uk-button-primary" data-uk-toggle="target: #modal-save">Опубликовать</button>
-                </div>
-                
-                
+                <Panel/>
+              
                 <ChooseModal modal={modal}  target={'modal-open'} data={pageList} redirect={this.init}/>
                 <ConfirmModal modal={modal}  target={'modal-save'} method={this.save}/>
             </>
