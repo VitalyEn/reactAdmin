@@ -27,12 +27,3 @@ const ConfirmModal = ({modal, target, method}) => {
 };
 
 export default ConfirmModal;
-/*
-onClick={() => method(() => {
-    UIkit.notification({ message: 'Успешно сохранено', status: 'success' })
-},
-() => {
-    UIkit.notification({ message: 'Ошибка сохранения', status: 'danger' })
-})}
-*/
-//onClick={method}
