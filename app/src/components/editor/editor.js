@@ -22,6 +22,7 @@ export default class Editor extends Component {
         this.isLoaded = this.isLoaded.bind(this);
         this.save = this.save.bind(this);
         this.init = this.init.bind(this);
+       this.my=this.my.bind(this);
     }
 
     componentDidMount() {
@@ -126,6 +127,10 @@ export default class Editor extends Component {
         })
     }
 
+my(){
+    alert('hhhhhhhhhhhhhhhhhhhhhh');
+}
+
     render() {
         const {loading, pageList} = this.state;
         const modal = true;
@@ -135,18 +140,41 @@ export default class Editor extends Component {
 
         return (
             <>
+     
                 <iframe src={this.currentPage} frameBorder="0"></iframe>
                 
                 {spinner}
 
                 <div className="panel">
                     <button className="uk-button uk-button-primary uk-margin-small-right" uk-toggle="target: #modal-open">Открыть</button>
-                    <button className="uk-button uk-button-primary" uk-toggle="target: #modal-save">Опубликовать</button>
+                    <button className="uk-button uk-button-primary" data-uk-toggle="target: #modal-save">Опубликовать</button>
                 </div>
                 
-                <ConfirmModal modal={modal}  target={'modal-save'} method={this.save}/>
+                
                 <ChooseModal modal={modal}  target={'modal-open'} data={pageList} redirect={this.init}/>
+                <ConfirmModal modal={modal}  target={'modal-save'} method={this.save}/>
+
+
             </>
         )
     }
 }
+//className="uk-button uk-button-primary uk-modal-close"
+//<ConfirmModal modal={modal}  target={'modal-save'} method={this.my}/>
+/*
+<div id='modal-save' data-uk-modal={modal.toString()} container='false'>
+<div className="uk-modal-dialog uk-modal-body">
+    <h2 className="uk-modal-title">Сохранение</h2>
+    <p>Вы действительно хотите сохранить изменения?</p>
+    <p className="uk-text-right">
+    <button className="uk-button uk-button-default uk-modal-close"
+        type="button">Отменить</button>
+        <button
+            
+            type="button"
+            onClick={this.my}
+           >Опубликовать</button>
+    </p>
+</div>
+</div>
+*/

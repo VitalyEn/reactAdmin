@@ -3,7 +3,7 @@ import UIkit from 'uikit';
 
 const ConfirmModal = ({modal, target, method}) => {
     return ( 
-        <div id={target} uk-modal={modal.toString()}>
+        <div id={target} data-uk-modal={modal.toString()} container='false'>
             <div className="uk-modal-dialog uk-modal-body">
                 <h2 className="uk-modal-title">Сохранение</h2>
                 <p>Вы действительно хотите сохранить изменения?</p>
@@ -18,7 +18,8 @@ const ConfirmModal = ({modal, target, method}) => {
                         },
                         () => {
                             UIkit.notification({ message: 'Ошибка сохранения', status: 'danger' })
-                        })}>Опубликовать</button>
+                        })}
+                       >Опубликовать</button>
                 </p>
             </div>
         </div>
@@ -26,3 +27,12 @@ const ConfirmModal = ({modal, target, method}) => {
 };
 
 export default ConfirmModal;
+/*
+onClick={() => method(() => {
+    UIkit.notification({ message: 'Успешно сохранено', status: 'success' })
+},
+() => {
+    UIkit.notification({ message: 'Ошибка сохранения', status: 'danger' })
+})}
+*/
+//onClick={method}
