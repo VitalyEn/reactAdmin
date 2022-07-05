@@ -15,6 +15,7 @@ export default class Editor extends Component {
         this.currentPage = "index.html";
         this.state = {
             pageList: [],
+            backupsList: [],
             newPageName: "",
             loading: true
         }
@@ -37,6 +38,7 @@ export default class Editor extends Component {
         this.iframe = document.querySelector('iframe');
         this.open(page, this.isLoaded);
         this.loadPageList();
+        this.loadBackupsList();
     }
 
     open(page, cb) {
@@ -57,18 +59,22 @@ export default class Editor extends Component {
             .then(() => this.enableEditing())
             .then(() => this.injectStyles())
             .then(cb);
+
+        this.loadBackupsList();
     }
 
-    save(onSuccess, onError) {
+    async save(onSuccess, onError) {
         this.isLoading();
         const newDom = this.virtualDom.cloneNode(this.virtualDom);
         DOMHelper.unwrapTextNodes(newDom);
         const html = DOMHelper.serializeDOMToString(newDom);
-        axios
+        await axios
             .post("./api/savePage.php", {pageName: this.currentPage, html})
             .then(onSuccess)
             .catch(onError)
             .finally(this.isLoaded);
+        
+        this.loadBackupsList();
     }
 
     enableEditing() {
@@ -101,6 +107,14 @@ export default class Editor extends Component {
             .then(res => this.setState({pageList: res.data}))
     }
 
+    loadBackupsList() {
+        axios
+            .get("./backups/backups.json")
+            .then(res => this.setState({backupsList: res.data.filter(backup => {
+                return backup.page === this.currentPage;
+            })
+        }))
+    }
     createNewPage() {
         axios
             .post("./api/createNewPage.php", {"name": this.state.newPageName})
