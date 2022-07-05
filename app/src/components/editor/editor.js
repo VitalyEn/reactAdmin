@@ -96,8 +96,7 @@ export default class Editor extends Component {
             text-editor:focus {
                 outline: 3px solid red;
                 outline-offset: 8px;
-            }
-        `;
+            }`;
         this.iframe.contentDocument.head.appendChild(style);
     }
 
@@ -142,7 +141,7 @@ export default class Editor extends Component {
     }
 
     render() {
-        const {loading, pageList} = this.state;
+        const {loading, pageList, backupsList} = this.state;
         const modal = true;
         let spinner;
         
@@ -158,7 +157,7 @@ export default class Editor extends Component {
               
                 <ChooseModal modal={modal}  target={'modal-open'} data={pageList} redirect={this.init}/>
                 <ConfirmModal modal={modal}  target={'modal-save'} method={this.save}/>
-                <ChooseModal modal={modal}  target={'modal-backup'} data={pageList} redirect={this.init}/>
+                <ChooseModal modal={modal}  target={'modal-backup'} data={backupsList} redirect={this.init}/>
             </>
         )
     }
