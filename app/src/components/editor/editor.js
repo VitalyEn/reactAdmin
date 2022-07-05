@@ -144,6 +144,7 @@ export default class Editor extends Component {
               
                 <ChooseModal modal={modal}  target={'modal-open'} data={pageList} redirect={this.init}/>
                 <ConfirmModal modal={modal}  target={'modal-save'} method={this.save}/>
+                <ChooseModal modal={modal}  target={'modal-backup'} data={pageList} redirect={this.init}/>
             </>
         )
     }
