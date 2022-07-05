@@ -19,11 +19,11 @@ export default class Editor extends Component {
             newPageName: "",
             loading: true
         }
-        this.createNewPage = this.createNewPage.bind(this);
         this.isLoading = this.isLoading.bind(this);
         this.isLoaded = this.isLoaded.bind(this);
         this.save = this.save.bind(this);
         this.init = this.init.bind(this);
+        this.restoreBackup = this.restoreBackup.bind(this);
     }
 
     componentDidMount() {
@@ -114,19 +114,16 @@ export default class Editor extends Component {
             })
         }))
     }
-    createNewPage() {
-        axios
-            .post("./api/createNewPage.php", {"name": this.state.newPageName})
-            .then(this.loadPageList())
-            .catch(() => alert("Страница уже существует!"));
-    }
 
-    deletePage(page) {
-        axios
-            .post("./api/deletePage.php", {"name": page})
-            .then(this.loadPageList())
-            .catch(() => alert("Страницы не существует!"));
+restoreBackup(e, backup){
+    if(e){
+        e.preventDefault();
     }
+    UIkit.modal.confirm("Вы действительно хотите восстановить страницу из этой резервной копии? Все несохраненные данные будут потеряны!", {labels: {ok:'Восстановить', cancel:'Отмена'}})
+    .then(() => {
+        console.log('ffffff');
+    })
+}
 
     isLoading() {
         this.setState({
@@ -157,7 +154,7 @@ export default class Editor extends Component {
               
                 <ChooseModal modal={modal}  target={'modal-open'} data={pageList} redirect={this.init}/>
                 <ConfirmModal modal={modal}  target={'modal-save'} method={this.save}/>
-                <ChooseModal modal={modal}  target={'modal-backup'} data={backupsList} redirect={this.init}/>
+                <ChooseModal modal={modal}  target={'modal-backup'} data={backupsList} redirect={this.restoreBackup}/>
             </>
         )
     }
