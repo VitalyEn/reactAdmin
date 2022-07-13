@@ -4,23 +4,25 @@ export default class EditorMeta extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            keywords: '',
-            description: ''
+            meta:{
+                title: '',
+                keywords: '',
+                description: ''
+            }
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getMeta(this.props.virtualDom);
     }
-
-    getMeta (virtualDom){
-let title = virtualDom.head.querySelector('title')||virtualDom.head.appendChild(virtualDom.createElement('title'));
+    
+    getMeta(virtualDom) {
+        this.title = virtualDom.head.querySelector('title') || virtualDom.head.appendChild(virtualDom.createElement('title'));
     }
 
     render() {
-
         const {modal, target} = this.props;
+
         return(
             <div id={target} data-uk-modal={modal.toString()} container='false'>
                 <div className="uk-modal-dialog uk-modal-body">
