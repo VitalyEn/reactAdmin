@@ -17,29 +17,36 @@ export default class EditorMeta extends Component {
     }
     
     getMeta(virtualDom) {
-        let title = virtualDom.head.querySelector('title') || virtualDom.head.appendChild(virtualDom.createElement('title'));
+        this.title = virtualDom.head.querySelector('title') || virtualDom.head.appendChild(virtualDom.createElement('title'));
     
-        let keywords = virtualDom.head.querySelector('meta[name="keywords"]');
-        if(!keywords) {
-            keywords = virtualDom.head.appendChild(virtualDom.createElement('meta'));
-            keywords.setAttribute("name","keywords");
+        this.keywords = virtualDom.head.querySelector('meta[name="keywords"]');
+        if(!this.keywords) {
+            this.keywords = virtualDom.head.appendChild(virtualDom.createElement('meta'));
+            this.keywords.setAttribute("name","keywords");
         }
 
-        let description = virtualDom.head.querySelector('meta[name="description"]');
-        if(!description) {
-            description = virtualDom.head.appendChild(virtualDom.createElement('meta'));
-            description.setAttribute("name","description");
+        this.description = virtualDom.head.querySelector('meta[name="description"]');
+        if(!this.description) {
+            this.description = virtualDom.head.appendChild(virtualDom.createElement('meta'));
+            this.description.setAttribute("name","description");
         }
 
         this.setState({
             meta:{
-                title: title.innerHTML,
-                keywords: keywords.getAttribute("content"),
-                description: description.getAttribute("content"),
+                title: this.title.innerHTML,
+                keywords: this.keywords.getAttribute("content"),
+                description: this.description.getAttribute("content"),
             }
         })
     }
 
+    applyMeta(){
+        this.title.innerHTML = this.state.meta.title;
+        this.keywords.setAttribute("content", this.state.meta.keywords);
+        this.description.setAttribute("content", this.state.meta.description);
+    }
+
+    
     render() {
         const {modal, target} = this.props;
         const {title, keywords, description} = this.state.meta;
@@ -50,7 +57,11 @@ export default class EditorMeta extends Component {
                     <h2 className="uk-modal-title">Редактирование Meta-тэгов</h2>
                     <form>
                         <div class="uk-margin">
-                            <input className="uk-input" type="text" placeholder="Title" value={title}/>
+                            <input className="uk-input"
+                            type="text" 
+                            placeholder="Title" 
+                            value={title}
+                            onChange={(e) => this.onValueChange(e)}/>
                         </div>
                         <div class="uk-margin">
                             <textarea className="uk-textarea" rows="5" placeholder="Keywords" value={keywords}></textarea>
@@ -64,7 +75,8 @@ export default class EditorMeta extends Component {
                         type="button">Отменить</button>
                         <button
                             className="uk-button uk-button-primary uk-modal-close"
-                            type="button">Применить</button>
+                            type="button"
+                            onClick={()=>{this.applyMeta}}>Применить</button>
                     </p>
                 </div>
             </div>
