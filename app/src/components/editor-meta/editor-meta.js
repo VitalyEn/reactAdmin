@@ -23,12 +23,14 @@ export default class EditorMeta extends Component {
         if(!this.keywords) {
             this.keywords = virtualDom.head.appendChild(virtualDom.createElement('meta'));
             this.keywords.setAttribute("name","keywords");
+            this.keywords.setAttribute("content","");
         }
 
         this.description = virtualDom.head.querySelector('meta[name="description"]');
         if(!this.description) {
             this.description = virtualDom.head.appendChild(virtualDom.createElement('meta'));
             this.description.setAttribute("name","description");
+            this.keywords.setAttribute("content","");
         }
 
         this.setState({
@@ -46,7 +48,48 @@ export default class EditorMeta extends Component {
         this.description.setAttribute("content", this.state.meta.description);
     }
 
-    
+    onValueChange(e){
+
+        if(e.target.getAttribute("data-title")){
+            e.persist();
+            this.setState(({meta})=>{
+                const newMeta = {
+                    ...meta, 
+                    title: e.target.value
+                }
+
+                return {
+                    meta: newMeta
+                }
+            })
+        }else if(e.target.getAttribute("data-key")){
+            e.persist();
+            this.setState(({meta})=>{
+                const newMeta = {
+                    ...meta, 
+                    keywords: e.target.value
+                }
+
+                return {
+                    meta: newMeta
+                }
+            })
+        } else {
+            e.persist();
+            this.setState(({meta})=>{
+                const newMeta = {
+                    ...meta, 
+                    description: e.target.value
+                }
+
+                return {
+                    meta: newMeta
+                }
+            })
+        }
+ 
+    }
+
     render() {
         const {modal, target} = this.props;
         const {title, keywords, description} = this.state.meta;
@@ -57,17 +100,31 @@ export default class EditorMeta extends Component {
                     <h2 className="uk-modal-title">Редактирование Meta-тэгов</h2>
                     <form>
                         <div class="uk-margin">
-                            <input className="uk-input"
+                            <input 
+                            data-title
+                            className="uk-input"
                             type="text" 
                             placeholder="Title" 
                             value={title}
                             onChange={(e) => this.onValueChange(e)}/>
                         </div>
                         <div class="uk-margin">
-                            <textarea className="uk-textarea" rows="5" placeholder="Keywords" value={keywords}></textarea>
+                            <textarea 
+                            data-key
+                            className="uk-textarea" 
+                            rows="5" 
+                            placeholder="Keywords" 
+                            value={keywords}
+                            onChange={(e) => this.onValueChange(e)}/>
                         </div>
                         <div class="uk-margin">
-                            <textarea className="uk-textarea" rows="5" placeholder="Description" value={description}></textarea>
+                            <textarea 
+                            data-descr
+                            className="uk-textarea" 
+                            rows="5" 
+                            placeholder="Description" 
+                            value={description}
+                            onChange={(e) => this.onValueChange(e)}/>
                         </div>
                     </form>
                     <p className="uk-text-right">

@@ -31,6 +31,12 @@ export default class Editor extends Component {
         this.init(null, this.currentPage);
     }
 
+    componentDidUpdate(prevProps){
+        if(this.props.virtualDom !== prevProps.virtualDom){
+            this.getMeta(this.props.virtualDom);
+        }
+    }
+    
     init(e, page) {
         if (e) {
             e.preventDefault();
