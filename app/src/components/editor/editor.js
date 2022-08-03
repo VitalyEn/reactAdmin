@@ -9,6 +9,7 @@ import ConfirmModal from '../confirm-modal';
 import ChooseModal from '../choose-modal';
 import Panel from "../panel";
 import EditorMeta from "../editor-meta";
+import EditorImages from '../editor-images';
 
 export default class Editor extends Component {
     constructor() {
@@ -55,6 +56,7 @@ export default class Editor extends Component {
             .get(`../${page}?rnd=${Math.random()}`)
             .then(res => DOMHelper.parseStrToDOM(res.data))
             .then(DOMHelper.wrapTextNodes)
+            .then(DOMHelper.wrapImages)
             .then(dom => {
                 this.virtualDom = dom;
                 return dom;
@@ -74,6 +76,7 @@ export default class Editor extends Component {
         this.isLoading();
         const newDom = this.virtualDom.cloneNode(this.virtualDom);
         DOMHelper.unwrapTextNodes(newDom);
+        DOMHelper.unwrapImages(newDom);
         const html = DOMHelper.serializeDOMToString(newDom);
         await axios
             .post("./api/savePage.php", {pageName: this.currentPage, html})
@@ -88,6 +91,13 @@ export default class Editor extends Component {
         this.iframe.contentDocument.body.querySelectorAll("text-editor").forEach(element => {
             const id = element.getAttribute("nodeid");
             const virtualElement = this.virtualDom.body.querySelector(`[nodeid="${id}"]`);
+
+            new EditorText(element, virtualElement);
+        });
+
+        this.iframe.contentDocument.body.querySelectorAll("[editableimgid]").forEach(element => {
+            const id = element.getAttribute("editableimgid");
+            const virtualElement = this.virtualDom.body.querySelector(`[editableimgid="${id}"]`);
 
             new EditorText(element, virtualElement);
         });
