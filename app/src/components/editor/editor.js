@@ -113,7 +113,12 @@ export default class Editor extends Component {
             text-editor:focus {
                 outline: 3px solid red;
                 outline-offset: 8px;
-            }`;
+            }
+            [editableimgid]:hover {
+                outline: 3px solid orange;
+                outline-offset: 8px; 
+            }
+            `;
         this.iframe.contentDocument.head.appendChild(style);
     }
 
