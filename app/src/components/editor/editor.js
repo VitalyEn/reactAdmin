@@ -175,6 +175,7 @@ export default class Editor extends Component {
             <>
      
                 <iframe src="" frameBorder="0"></iframe>
+                <input id="img-upload" type="file" accept="image/*" style={{display: 'none'}}></input>
                 
                 {spinner}
                 <Panel/>
