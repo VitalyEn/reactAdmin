@@ -20,7 +20,8 @@ export default class EditorImages {
                             "Content-Type": "multipart/form-data"
                         }
                     })
-                    .then(()=> {
+                    .then((res)=> {
+                        this.virtualElement.src = this.element.src = `./img/${res.data.src}`;
                         this.imgUploader.value = "";
                     })
             }

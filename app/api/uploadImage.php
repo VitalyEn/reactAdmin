@@ -6,4 +6,5 @@ if (file_exists($_FILES["image"]["tmp_name"]) && is_uploaded_file($_FILES["imafe
     $fileName = uniqid().".".$fileExt;
 
     move_uploaded_file($_FILES["image"]["tmp_name"], "../../img/".$fileName);
+    echo json_encode(array("src"=> $fileName));
 }
