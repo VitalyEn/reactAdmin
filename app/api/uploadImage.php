@@ -1,7 +1,7 @@
 <?php
 
 
-if (file_exists($_FILES["image"]["tmp_name"]) && is_uploaded_file($_FILES["imafe"]["tmp_name"])){
+if (file_exists($_FILES["image"]["tmp_name"]) && is_uploaded_file($_FILES["image"]["tmp_name"])){
     $fileExt = explode("/", $_FILES["image"]["type"])[1];
     $fileName = uniqid().".".$fileExt;
 

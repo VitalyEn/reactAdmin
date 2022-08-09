@@ -99,7 +99,7 @@ export default class Editor extends Component {
             const id = element.getAttribute("editableimgid");
             const virtualElement = this.virtualDom.body.querySelector(`[editableimgid="${id}"]`);
 
-            new EditorText(element, virtualElement);
+            new EditorImages(element, virtualElement, this.isLoading, this.isLoaded);
         });
     }
 
