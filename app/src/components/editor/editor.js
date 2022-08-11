@@ -10,6 +10,7 @@ import ChooseModal from '../choose-modal';
 import Panel from "../panel";
 import EditorMeta from "../editor-meta";
 import EditorImages from '../editor-images';
+import Login from "../login";
 
 export default class Editor extends Component {
     constructor() {
@@ -177,7 +178,7 @@ export default class Editor extends Component {
 
         return (
             <>
-     
+                <Login/>     
                 <iframe src="" frameBorder="0"></iframe>
                 <input id="img-upload" type="file" accept="image/*" style={{display: 'none'}}></input>
                 
