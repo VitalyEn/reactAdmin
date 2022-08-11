@@ -14,6 +14,7 @@ export default class Login extends Component {
     }
     render() {
         const {pass} = this.state;
+        const {login} = this.props;
 
         return (
             <div className="login-container">
@@ -27,9 +28,11 @@ export default class Login extends Component {
                         className="uk-input uk-margin-top"
                         placeholder="Пароль"
                         value={pass}
-                        onChange={(e) => this.onPasswordChange()}></input>
-                    <button className="uk-button uk-button-primary uk-margin-top"
-                    ty></button>
+                        onChange={(e) => this.onPasswordChange(e)}></input>
+                    <button 
+                        className="uk-button uk-button-primary uk-margin-top"
+                        type="button"
+                        onClick={() => login(pass)}>Вход</button>
                 </div>
             </div>
         )
