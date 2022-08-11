@@ -20,7 +20,8 @@ export default class Editor extends Component {
             pageList: [],
             backupsList: [],
             newPageName: "",
-            loading: true
+            loading: true,
+            auth:false
         }
         this.isLoading = this.isLoading.bind(this);
         this.isLoaded = this.isLoaded.bind(this);
@@ -30,7 +31,19 @@ export default class Editor extends Component {
     }
 
     componentDidMount() {
+        this.checkAuth();
         this.init(null, this.currentPage);
+    }
+
+    checkAuth(){
+        axios
+            .get("./api/checkAuth.php")
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    auth: res.data.auth
+                })
+            })
     }
 
     componentDidUpdate(prevProps){
@@ -43,11 +56,14 @@ export default class Editor extends Component {
         if (e) {
             e.preventDefault();
         }
-        this.isLoading();
-        this.iframe = document.querySelector('iframe');
-        this.open(page, this.isLoaded);
-        this.loadPageList();
-        this.loadBackupsList();
+
+        if(this.state.auth){
+            this.isLoading();
+            this.iframe = document.querySelector('iframe');
+            this.open(page, this.isLoaded);
+            this.loadPageList();
+            this.loadBackupsList();
+        }
     }
 
     open(page, cb) {
@@ -170,15 +186,18 @@ export default class Editor extends Component {
     }
 
     render() {
-        const {loading, pageList, backupsList} = this.state;
+        const {loading, pageList, backupsList, auth} = this.state;
         const modal = true;
         let spinner;
         
         loading ? spinner = <Spinner active/> : spinner = <Spinner />
 
+        if(!auth) {
+            return <Login/> 
+        }
+
         return (
             <>
-                <Login/>     
                 <iframe src="" frameBorder="0"></iframe>
                 <input id="img-upload" type="file" accept="image/*" style={{display: 'none'}}></input>
                 
