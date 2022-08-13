@@ -32,15 +32,20 @@ export default class Editor extends Component {
     }
 
     componentDidMount() {
-        this.checkAuth();
-        this.init(null, this.currentPage);
+        this.checkAuth();       
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.auth !== prevState.auth){
+            this.init(null, this.currentPage);
+        }
     }
 
     checkAuth(){
         axios
             .get("./api/checkAuth.php")
             .then(res => {
-                console.log(res.data);
+                //console.log(res.data);
                 this.setState({
                     auth: res.data.auth
                 })
@@ -51,13 +56,10 @@ export default class Editor extends Component {
         if(pass.length > 5){
             axios
                 .post('./api/login.php', {"password": pass})
-                .then()
-        }
-    }
-
-    componentDidUpdate(prevProps){
-        if(this.props.virtualDom !== prevProps.virtualDom){
-            this.getMeta(this.props.virtualDom);
+                .then(res => {
+                    console.log(res.data)
+                    auth: res.data.auth
+                })
         }
     }
     
