@@ -57,8 +57,10 @@ export default class Editor extends Component {
             axios
                 .post('./api/login.php', {"password": pass})
                 .then(res => {
-                    console.log(res.data)
-                    auth: res.data.auth
+                    this.setState({
+                        auth: res.data.auth
+                    })
+                   // console.log(res.data)        
                 })
         }
     }
@@ -202,7 +204,7 @@ export default class Editor extends Component {
         let spinner;
         
         loading ? spinner = <Spinner active/> : spinner = <Spinner />
-
+console.log(auth);
         if(!auth) {
             return <Login login = {this.login}/> 
         }

@@ -12,6 +12,7 @@ export default class Login extends Component {
             pass: e.target.value
         })
     }
+    
     render() {
         const {pass} = this.state;
         const {login} = this.props;
