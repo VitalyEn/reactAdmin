@@ -21,7 +21,9 @@ export default class Editor extends Component {
             backupsList: [],
             newPageName: "",
             loading: true,
-            auth:false
+            auth:false,
+            loginError: false,
+            loginLengthError: false
         }
         this.isLoading = this.isLoading.bind(this);
         this.isLoaded = this.isLoaded.bind(this);
@@ -58,10 +60,17 @@ export default class Editor extends Component {
                 .post('./api/login.php', {"password": pass})
                 .then(res => {
                     this.setState({
-                        auth: res.data.auth
+                        auth: res.data.auth,
+                        loginError: !res.data.auth,
+                        loginLengthError: false
                     })
                    // console.log(res.data)        
                 })
+        }else{
+            this.setState({
+                loginError: false,
+                loginLengthError: true
+            })
         }
     }
     
@@ -199,14 +208,14 @@ export default class Editor extends Component {
     }
 
     render() {
-        const {loading, pageList, backupsList, auth} = this.state;
+        const {loading, pageList, backupsList, auth, loginError, loginLengthError} = this.state;
         const modal = true;
         let spinner;
         
         loading ? spinner = <Spinner active/> : spinner = <Spinner />
 console.log(auth);
         if(!auth) {
-            return <Login login = {this.login}/> 
+            return <Login login = {this.login} lengthErr={loginLengthError} logErr={loginError}/> 
         }
 
         return (
