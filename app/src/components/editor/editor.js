@@ -30,6 +30,7 @@ export default class Editor extends Component {
         this.save = this.save.bind(this);
         this.init = this.init.bind(this);
         this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
         this.restoreBackup = this.restoreBackup.bind(this);
     }
 
@@ -74,6 +75,14 @@ export default class Editor extends Component {
         }
     }
     
+    logout(){
+        axios
+            .get("./api/logout.php")
+            .then(() => {
+                window.location.replace("/");
+            })
+    }
+
     init(e, page) {
         if (e) {
             e.preventDefault();
@@ -227,7 +236,26 @@ console.log(auth);
                 <Panel/>
               
                 <ChooseModal modal={modal}  target={'modal-open'} data={pageList} redirect={this.init}/>
-                <ConfirmModal modal={modal}  target={'modal-save'} method={this.save}/>
+                <ConfirmModal 
+                    modal={modal}  
+                    target={'modal-save'} 
+                    method={this.save}
+                    text={{
+                        title: "Сохранение",
+                        descr: "Вы действительно хотите сохранить изменения?",
+                        btn: "Опубликовать"
+                    }}/>
+                    
+                <ConfirmModal 
+                    modal={modal}  
+                    target={'modal-logout'} 
+                    method={this.logout}
+                    text={{
+                        title: "Выход",
+                        descr: "Вы действительно хотите выйти?",
+                        btn: "Выйти"
+                    }}/>
+
                 <ChooseModal modal={modal}  target={'modal-backup'} data={backupsList} redirect={this.restoreBackup}/>
                 {this.virtualDom ?  <EditorMeta modal={modal}  target={'modal-meta'} virtualDom={this.virtualDom}/> : false}
             </>
