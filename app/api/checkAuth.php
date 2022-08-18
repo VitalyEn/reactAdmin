@@ -1,6 +1,7 @@
 8 lines (7 sloc)  162 Bytes
 
 <?php
+
 session_start();
 
 if ($_SESSION["auth"] == true) {

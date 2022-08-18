@@ -48,7 +48,6 @@ export default class Editor extends Component {
         axios
             .get("./api/checkAuth.php")
             .then(res => {
-                //console.log(res.data);
                 this.setState({
                     auth: res.data.auth
                 })
