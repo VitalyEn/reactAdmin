@@ -1,6 +1,9 @@
 const gulp = require("gulp");
 const webpack = require("webpack-stream");
 const sass = require("gulp-sass")(require('sass'));
+const autoprefixer = require("autoprefixer");
+const cleanCSS = require("gulp-clean-css");
+const postcss = require("gulp-postcss");
 
 const dist = "/OpenServer/domains/reactAdmin/admin";
 const prod = "./build/";
@@ -113,7 +116,11 @@ gulp.task("prod", () => {
         }))
         .pipe(gulp.dest(prod))
 
-
+    return gulp.src("./app/scss/style.scss")
+        .pipe(sass().on('error', sass.logError))
+        .pipe(postcss([autoprefixer()]))
+        .pipe(cleanCSS())
+        .pipe(gulp.dest(prod));
 });
 
 gulp.task("default", gulp.parallel("watch", "build"));
