@@ -3,9 +3,11 @@ const webpack = require("webpack-stream");
 const sass = require("gulp-sass")(require('sass'));
 
 const dist = "/OpenServer/domains/reactAdmin/admin";
+const prod = "./build/";
+
 gulp.task("copy-html", () => {
     return gulp.src("./app/src/index.html")
-        .pipe(gulp.dest("/OpenServer/domains/reactAdmin/admin"))
+        .pipe(gulp.dest(dist))
 });
 
 gulp.task("build-js", () => {
@@ -68,4 +70,50 @@ gulp.task("watch", () => {
 });
 
 gulp.task("build", gulp.parallel("copy-html", "copy-assets", "copy-api", "build-sass", "build-js"));
+
+gulp.task("prod", () => {
+    gulp.src("./app/src/index.html")
+        .pipe(gulp.dest(prod));
+
+    gulp.src("./app/api/**/.*")
+        .pipe(gulp.dest(prod + "/api"));
+
+    gulp.src("./app/api/**/*.*")
+        .pipe(gulp.dest(prod + "/api"));
+
+    gulp.src("./app/assets/**/*.*")
+        .pipe(gulp.dest(prod + "/assets"));
+
+    gulp.src("./app/src/main.js")
+        .pipe(webpack({
+            mode: 'production',
+            output: {
+                filename: 'script.js'
+            },
+
+            module: {
+                rules: [{
+                    test: /\.m?js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                ['@babel/preset-env', {
+                                    debug: false,
+                                    corejs: 3,
+                                    useBuiltIns: "usage"
+                                }],
+                                "@babel/react"
+                            ]
+                        }
+                    }
+                }]
+            }
+        }))
+        .pipe(gulp.dest(prod))
+
+
+});
+
 gulp.task("default", gulp.parallel("watch", "build"));
